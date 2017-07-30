@@ -1,0 +1,2 @@
+headers = parson.h
+headerFilter = parson.h

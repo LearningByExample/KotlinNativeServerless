@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://dl.bintray.com/jetbrains/kotlin-native-dependencies"
+        }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:+"
+    }
+}
+
+apply plugin: 'konan'
+
+konanInterop {
+    Parson {
+        includeDirs "${project.projectDir}/src/main/cpp/parson"
+    }
+}
+
+konanArtifacts {
+    fibonacci {
+        useInterop "Parson"
+        nativeLibrary "${project.buildDir.canonicalPath}/clang/parson.bc"
+    }
+}
+
+task compileCpp(type: Exec) {
+    dependsOn 'genParsonInteropStubs'
+    workingDir project.getProjectDir()
+    commandLine './buildCpp.sh'
+}
+
+compileKonanFibonacci {
+    dependsOn 'compileCpp'
+}

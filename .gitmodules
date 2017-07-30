@@ -1,0 +1,3 @@
+[submodule "src/main/cpp/parson"]
+	path = src/main/cpp/parson
+	url = https://github.com/kgabis/parson.git
